@@ -96,29 +96,47 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-{
-  HAL_UART_Receive(&huart4, Rx_Data, 4, 1000);
-
-  if (Rx_Data[2] == 0x03)
   {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-    // Send LED ON status to Nextion
-    char on_msg[] = "tState.txt=\"State: ON\"";
-    HAL_UART_Transmit(&huart4, (uint8_t *)on_msg, strlen(on_msg), 100);
-    uint8_t end_cmd[3] = {0xFF, 0xFF, 0xFF};
-    HAL_UART_Transmit(&huart4, end_cmd, 3, 100);
-  }
 
-  if (Rx_Data[2] == 0x04)
-  {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-    // Send LED OFF status to Nextion
-    char off_msg[] = "tState.txt=\"State: OFF\"";
-    HAL_UART_Transmit(&huart4, (uint8_t *)off_msg, strlen(off_msg), 100);
-    uint8_t end_cmd[3] = {0xFF, 0xFF, 0xFF};
-    HAL_UART_Transmit(&huart4, end_cmd, 3, 100);
+    /* USER CODE END WHILE */
+	  HAL_UART_Receive(&huart4, Rx_Data, 4, 1000);
+
+	  	  if(Rx_Data[1] == 0x00 && Rx_Data[2] == 0x03)
+	  	   {
+	  		  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+	  		  // Send LED OFF status to Nextion
+	  		  char off_msg[] = "tState.txt=\"State: OFF\"";
+	  		  HAL_UART_Transmit(&huart4, (uint8_t *)off_msg, strlen(off_msg), 100);
+	  		  uint8_t end_cmd[3] = {0xFF, 0xFF, 0xFF};
+	  		  HAL_UART_Transmit(&huart4, end_cmd, 3, 100);
+	  	   }
+
+	  	   if (Rx_Data[1]==0x01 && Rx_Data[2] == 0x03)
+	  	   {
+	  	     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET);
+	  	     // Send LED ON status to Nextion
+	  	     char on_msg[] = "tState.txt=\"State: ON\"";
+	  	     HAL_UART_Transmit(&huart4, (uint8_t *)on_msg, strlen(on_msg), 100);
+	  	     uint8_t end_cmd[3] = {0xFF, 0xFF, 0xFF};
+	  	     HAL_UART_Transmit(&huart4, end_cmd, 3, 100);
+	  	   }
+	  	   if (Rx_Data[2] == 0x04)
+	  	   {
+	  	  	 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+	  	  	 // Send LED OFF status to Nextion
+	  	  	 char off_msg[] = "tState.txt=\"State: OFF\"";
+	  	  	 HAL_UART_Transmit(&huart4, (uint8_t *)off_msg, strlen(off_msg), 100);
+	  	  	 uint8_t end_cmd[3] = {0xFF, 0xFF, 0xFF};
+	  	  	 HAL_UART_Transmit(&huart4, end_cmd, 3, 100);
+	  	   }
+
+	  	   if (Rx_Data[2]==0x07)
+	  	   {
+	  		   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+	  	   }
+
+    /* USER CODE BEGIN 3 */
   }
-}
 /* USER CODE END WHILE */
 /**
   * @brief System Clock Configuration
